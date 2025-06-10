@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarah Chen - Interior Designer</title>
+    <title>Wendr</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -124,6 +124,75 @@
             opacity: 0.3;
         }
 
+        /* Animated Background Elements */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(201, 169, 110, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 60% 20%, rgba(201, 169, 110, 0.05) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            transform: rotate(45deg);
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 20% 80% 20% 80%;
+            animation-delay: 4s;
+        }
+
+        .shape:nth-child(4) {
+            top: 40%;
+            right: 30%;
+            width: 70px;
+            height: 70px;
+            background: var(--secondary);
+            border-radius: 30% 70% 70% 30%;
+            animation-delay: 6s;
+        }
+
         .hero-content {
             position: relative;
             z-index: 2;
@@ -139,6 +208,21 @@
             padding: 4px;
             animation: floatImage 6s ease-in-out infinite;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .profile-image::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--accent), var(--secondary), var(--accent));
+            z-index: -1;
+            animation: rotate 8s linear infinite;
+            opacity: 0.3;
         }
 
         .profile-image img {
@@ -161,6 +245,7 @@
             color: var(--secondary);
             margin-bottom: 1rem;
             letter-spacing: -0.02em;
+            animation: slideInLeft 1s ease-out 0.3s both;
         }
 
         .hero p {
@@ -168,6 +253,15 @@
             color: var(--text);
             margin-bottom: 2rem;
             font-weight: 300;
+            animation: slideInRight 1s ease-out 0.6s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.9s both;
         }
 
         .cta-button {
@@ -180,12 +274,164 @@
             font-weight: 500;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(201, 169, 110, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         .cta-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(201, 169, 110, 0.4);
             background: var(--secondary);
+        }
+
+        .resume-button {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .resume-button:hover {
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        .download-button {
+            background: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+
+        .download-button:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Resume Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            height: 90vh;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close {
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .resume-content {
+            padding: 2rem;
+            height: calc(90vh - 100px);
+            overflow-y: auto;
+            background: var(--white);
+        }
+
+        .resume-section {
+            margin-bottom: 2rem;
+        }
+
+        .resume-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--highlight);
+            padding-bottom: 0.5rem;
+        }
+
+        .experience-item, .education-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--highlight);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .experience-item:hover, .education-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .item-date {
+            font-size: 0.9rem;
+            color: var(--text);
+            opacity: 0.7;
+        }
+
+        .item-company {
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Typing Animation */
+        .typing-text {
+            overflow: hidden;
+            border-right: 3px solid var(--accent);
+            white-space: nowrap;
+            animation: typing 3s steps(40) 1s both, blink 1s infinite 4s;
         }
 
         /* About Section */
@@ -501,12 +747,69 @@
             }
         }
 
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         @keyframes floatImage {
             0%, 100% {
                 transform: translateY(0px);
             }
             50% {
                 transform: translateY(-10px);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(0px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-10px) rotate(270deg);
+            }
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
             }
         }
 
@@ -518,6 +821,33 @@
             50% {
                 opacity: 1;
                 transform: scale(1.2);
+            }
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            0%, 50% {
+                border-color: var(--accent);
+            }
+            51%, 100% {
+                border-color: transparent;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
             }
         }
 
@@ -543,6 +873,11 @@
                 font-size: 2.5rem;
             }
 
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
             .about-content,
             .contact-content {
                 grid-template-columns: 1fr;
@@ -561,6 +896,17 @@
             .portfolio,
             .contact {
                 padding: 4rem 0;
+            }
+
+            .modal-content {
+                width: 95%;
+                height: 95vh;
+                margin: 2.5% auto;
+            }
+
+            .item-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -582,6 +928,12 @@
 
     <!-- Hero Section -->
     <section class="hero">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
         <div class="hero-content">
             <div class="profile-image">
                 <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: var(--highlight); border-radius: 50%;">
@@ -589,203 +941,133 @@
                 </div>
             </div>
             <h1>Sarah Chen</h1>
-            <p>Creating Beautiful Spaces That Tell Your Story</p>
-            <a href="#portfolio" class="cta-button">View My Work</a>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="about-content fade-in">
-                <div class="about-text">
-                    <h2>About Me</h2>
-                    <p>I'm a passionate interior designer with a fresh perspective on creating harmonious living spaces. My design philosophy centers on the belief that every space should reflect the unique personality and lifestyle of its inhabitants.</p>
-                    <p>With a keen eye for detail and a love for sustainable design practices, I specialize in creating environments that are both aesthetically pleasing and functionally superior.</p>
-                    <div class="skills">
-                        <span class="skill-tag">Space Planning</span>
-                        <span class="skill-tag">Color Theory</span>
-                        <span class="skill-tag">3D Visualization</span>
-                        <span class="skill-tag">Sustainable Design</span>
-                        <span class="skill-tag">Project Management</span>
-                        <span class="skill-tag">AutoCAD</span>
-                        <span class="skill-tag">SketchUp</span>
-                    </div>
-                </div>
-                <div class="about-visual">
-                    <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--secondary); margin-bottom: 1rem;">Design Philosophy</h3>
-                    <p style="color: var(--text); font-style: italic;">"Good design is not just what looks good. It's what works well, feels right, and improves the quality of life."</p>
-                </div>
+            <p class="typing-text">Creating Beautiful Spaces That Tell Your Story</p>
+            <div class="hero-buttons">
+                <a href="#portfolio" class="cta-button">View My Work</a>
+                <a href="#" class="cta-button resume-button" onclick="openResume()">View Resume</a>
+                <a href="#" class="cta-button download-button" onclick="downloadResume()">📄 Download CV</a>
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section class="portfolio" id="portfolio">
-        <div class="container">
-            <div class="section-header fade-in">
-                <h2>My Portfolio</h2>
-                <p>A collection of thoughtfully designed spaces</p>
+    <!-- Resume Modal -->
+    <div id="resumeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="font-family: 'Playfair Display', serif;">Sarah Chen - Resume</h2>
+                <span class="close" onclick="closeResume()">&times;</span>
             </div>
-            <div class="portfolio-grid">
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h3>Modern Minimalist Living</h3>
-                        <p>A serene apartment design focusing on clean lines, natural materials, and abundant natural light.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">Residential</span>
-                            <span class="project-tag">Minimalist</span>
-                            <span class="project-tag">Sustainable</span>
-                        </div>
-                    </div>
+            <div class="resume-content">
+                <div class="resume-section">
+                    <h3>Professional Summary</h3>
+                    <p>Passionate and creative Interior Designer with a fresh perspective on creating harmonious living spaces. Specialized in sustainable design practices with expertise in space planning, color theory, and 3D visualization. Committed to creating environments that reflect clients' unique personalities while maintaining functional excellence.</p>
                 </div>
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h3>Cozy Reading Nook</h3>
-                        <p>A warm and inviting corner space designed for relaxation and literary escapades.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">Residential</span>
-                            <span class="project-tag">Cozy</span>
-                            <span class="project-tag">Functional</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h3>Scandinavian Kitchen</h3>
-                        <p>A bright, functional kitchen space embracing Nordic design principles and natural wood elements.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">Kitchen</span>
-                            <span class="project-tag">Scandinavian</span>
-                            <span class="project-tag">Natural</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <div class="section-header fade-in">
-                <h2>Let's Create Together</h2>
-                <p>Ready to transform your space? I'd love to hear about your project.</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info fade-in">
-                    <div class="contact-item">
-                        <span class="icon">📧</span>
+                <div class="resume-section">
+                    <h3>Experience</h3>
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div class="item-title">Junior Interior Designer</div>
+                            <div class="item-date">2023 - Present</div>
+                        </div>
+                        <div class="item-company">Modern Living Design Studio, New York, NY</div>
+                        <ul>
+                            <li>Collaborated on 15+ residential projects, from concept to completion</li>
+                            <li>Specialized in sustainable and eco-friendly design solutions</li>
+                            <li>Created detailed 3D visualizations and floor plans using AutoCAD and SketchUp</li>
+                            <li>Managed client relationships and project timelines</li>
+                        </ul>
+                    </div>
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div class="item-title">Design Intern</div>
+                            <div class="item-date">2022 - 2023</div>
+                        </div>
+                        <div class="item-company">Elegant Spaces Interior Design, Brooklyn, NY</div>
+                        <ul>
+                            <li>Assisted senior designers with space planning and material selection</li>
+                            <li>Conducted site visits and measurements for residential projects</li>
+                            <li>Developed mood boards and design presentations</li>
+                            <li>Researched sustainable materials and vendors</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="resume-section">
+                    <h3>Education</h3>
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div class="item-title">Bachelor of Fine Arts in Interior Design</div>
+                            <div class="item-date">2018 - 2022</div>
+                        </div>
+                        <div class="item-company">Parsons School of Design, New York, NY</div>
+                        <p>Magna Cum Laude, GPA: 3.8/4.0</p>
+                        <p>Relevant Coursework: Space Planning, Color Theory, Sustainable Design, Construction Methods, Lighting Design</p>
+                    </div>
+                </div>
+
+                <div class="resume-section">
+                    <h3>Skills & Expertise</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                         <div>
-                            <h4>Email</h4>
-                            <p>sarah.chen.design@email.com</p>
+                            <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Design Skills</h4>
+                            <ul>
+                                <li>Space Planning</li>
+                                <li>Color Theory</li>
+                                <li>Lighting Design</li>
+                                <li>Sustainable Design</li>
+                                <li>Material Selection</li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <span class="icon">📱</span>
                         <div>
-                            <h4>Phone</h4>
-                            <p>+1 (555) 123-4567</p>
+                            <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Software Proficiency</h4>
+                            <ul>
+                                <li>AutoCAD (Advanced)</li>
+                                <li>SketchUp (Advanced)</li>
+                                <li>Adobe Creative Suite</li>
+                                <li>3ds Max</li>
+                                <li>Revit (Intermediate)</li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <span class="icon">📍</span>
                         <div>
-                            <h4>Location</h4>
-                            <p>New York, NY</p>
+                            <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Professional Skills</h4>
+                            <ul>
+                                <li>Project Management</li>
+                                <li>Client Relations</li>
+                                <li>Budget Management</li>
+                                <li>Vendor Coordination</li>
+                                <li>Presentation Skills</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <form class="contact-form fade-in">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+                <div class="resume-section">
+                    <h3>Certifications & Awards</h3>
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div class="item-title">LEED Green Associate</div>
+                            <div class="item-date">2023</div>
+                        </div>
+                        <div class="item-company">U.S. Green Building Council</div>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div class="item-title">Student Design Excellence Award</div>
+                            <div class="item-date">2022</div>
+                        </div>
+                        <div class="item-company">Parsons School of Design</div>
                     </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
+                </div>
+
+                <div class="resume-section">
+                    <h3>Portfolio Highlights</h3>
+                    <ul>
+                        <li><strong>Modern Minimalist Living:</strong> Sustainable apartment design featuring reclaimed materials and energy-efficient lighting</li>
+                        <li><strong>Cozy Reading Nook:</strong> Multi-functional space design maximizing small area potential</li>
+                        <li><strong>Scandinavian Kitchen:</strong> Nordic-inspired design emphasizing natural materials and functionality</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="social-links">
-                <a href="#" aria-label="Instagram">📷</a>
-                <a href="#" aria-label="LinkedIn">💼</a>
-                <a href="#" aria-label="Pinterest">📌</a>
-            </div>
-            <p>&copy; 2025 Sarah Chen. All rights reserved. | Crafted with passion for beautiful spaces.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Form submission
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! I\'ll get back to you soon.');
-            this.reset();
-        });
-
-        // Add hover effects for portfolio items
-        document.querySelectorAll('.portfolio-item').forEach(item => {
-            item.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            item.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-    </script>
-</body>
-</html>
+    </div>
